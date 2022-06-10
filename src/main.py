@@ -3,7 +3,6 @@ import requests
 import os
 import shutil
 from instagrapi import Client
-from argparse import ArgumentParser
 from uuid import uuid4
 
 THIS_PERSON_DOES_NOT_EXIST = 'https://thispersondoesnotexist.com/image'
@@ -33,24 +32,15 @@ def post_new_image(client: Client, image: str, caption: str=DEFAULT_CAPTION):
 def run_schedule(client):
     image_id = store_new_image()
     post_new_image(client, image_id)
-
-parser = ArgumentParser(description='Post on Instagram every few hours')
-parser.add_argument('username', type=str, help='Username on Instagram', default=None, required=False)
-parser.add_argument('password', type=str, help='Password matching the Username on Instagram', default=None, required=False)
-parser.add_argument('code', type=str, help='2FA Code', default=None, required=False)
-
+    
 if __name__ == '__main__':
     print('Creating Cache storage if not existing...')
     if not os.path.exists(CACHE_DIR):
         os.mkdir(CACHE_DIR)
         print(f'Created {CACHE_DIR} for caching images')
-    args = parser.parse_args()
-    username, password, code = args.username, args.password, args.code
-    if username is None:
-        username = os.getenv('USERNAME')
-    if password is None:
-        password = os.getenv('PASSWORD')
+    username = os.getenv('USERNAME')
+    password = os.getenv('PASSWORD')
     client = Client()
-    client.login(username, password, code)
+    client.login(username, password)
     schedule.every(12).hours.do(run_schedule, client)
 
