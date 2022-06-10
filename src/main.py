@@ -35,9 +35,9 @@ def run_schedule(client):
     post_new_image(client, image_id)
 
 parser = ArgumentParser(description='Post on Instagram every few hours')
-parser.add_argument('username', type=str, help='Username on Instagram')
-parser.add_argument('password', type=str, help='Password matching the Username on Instagram')
-parser.add_argument('code', type=str, help='2FA Code')
+parser.add_argument('username', type=str, help='Username on Instagram', default=None)
+parser.add_argument('password', type=str, help='Password matching the Username on Instagram', default=None)
+parser.add_argument('code', type=str, help='2FA Code', default=None)
 
 if __name__ == '__main__':
     print('Creating Cache storage if not existing...')
