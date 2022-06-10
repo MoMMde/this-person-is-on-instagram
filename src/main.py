@@ -46,6 +46,10 @@ if __name__ == '__main__':
         print(f'Created {CACHE_DIR} for caching images')
     args = parser.parse_args()
     username, password, code = args.username, args.password, args.code
+    if username is None:
+        username = os.getenv('USERNAME')
+    if password is None:
+        password = os.getenv('PASSWORD')
     client = Client()
     client.login(username, password, code)
     schedule.every(12).hours.do(run_schedule, client)
