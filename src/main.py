@@ -1,6 +1,7 @@
 import schedule
 import requests
 import os
+import time
 import shutil
 from instagrapi import Client
 from uuid import uuid4
@@ -43,4 +44,6 @@ if __name__ == '__main__':
     client = Client()
     client.login(username, password)
     schedule.every(12).hours.do(run_schedule, client)
-
+    while True:
+        schedule.run_pending()
+        time.sleep(5)
